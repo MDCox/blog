@@ -6,11 +6,6 @@ import (
 	"html/template"
 )
 
-type Post struct {
-    Title string
-    Body  []byte
-}
-
 func loadPost(title string) (*Post, error) {
     filename := title + ".txt"
     body, err := ioutil.ReadFile(filename)
@@ -26,7 +21,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		p = &Post{Title: title}
 	}
-	t, _ := template.ParseFiles("app/views/post.html")
+	t, _ := template.ParseFiles("views/post.html")
 	t.Execute(w, p)
 }
 
