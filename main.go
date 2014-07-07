@@ -42,10 +42,6 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Fprintf(w, "Title: %s\n", title)
 	}
-
-	//	posts, _ := ioutil.ReadFile("postList.txt")
-	//	t, _ := template.ParseFiles("views/index.html")
-	//	t.Execute(w, posts)
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
