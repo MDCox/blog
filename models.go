@@ -2,5 +2,7 @@ package main
 
 type Post struct {
     Title string
-    Body  []byte
+    Body  string
+    Date  string
+    slug  string
 }
