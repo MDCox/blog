@@ -6,25 +6,29 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"html/template"
-	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 func setupDB() *sql.DB {
-	db, err := sql.Open("postgres", "user=user password=pass dbname=blog_db")
+	db, err := sql.Open("postgres", "user=postgres dbname=blog_db sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
 	return db
 }
 
-func loadPost(title string) (*Post, error) {
-	filename := title + ".txt"
-	body, err := ioutil.ReadFile(filename)
-	if err != nil {
+func loadPost(slug string) (*Post, error) {
+	query := fmt.Sprintf("SELECT * FROM posts WHERE slug='%s'", slug)
+	var id int
+	var title, body string
+	var date time.Time
+	err := db.QueryRow(query).Scan(&id, &title, &body, &date, &slug)
+	if err != nil { 
 		return nil, err
 	}
-	return &Post{Title: title, Body: body}, nil
+
+	return &Post{Title: title, Body: body, Date: date}, nil
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,11 +49,12 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/post/"):]
-	p, err := loadPost(title)
+	slug := r.URL.Path[len("/post/"):]
+	p, err := loadPost(slug)
 	if err != nil {
-		p = &Post{Title: title}
+		p = &Post{Title: "404", Body: fmt.Sprintf("%s",err)}
 	}
+	fmt.Printf("%v",p)
 	t, _ := template.ParseFiles("views/post.html")
 	t.Execute(w, p)
 }
