@@ -38,14 +38,17 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer rows.Close()
 
-	var title string
-	var posts []string
+	var id int
+	var title, body, slug string
+	var date time.Time
+	var posts []Post
 	for rows.Next() {
-		err := rows.Scan(&title)
+		err := rows.Scan(id, title, body, date, slug)
 		if err != nil {
 			fmt.Fprintf(w, "error")
 		}
-		posts = append(posts, title)
+		var currPost = Post{ID: id, Title: title, Date: date, Slug: slug}
+		posts = append(posts, currPost)
 	}
 	fmt.Printf("%v", posts)
 	t, _ := template.ParseFiles("views/index.html")
@@ -67,6 +70,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 var db *sql.DB = setupDB()
 
 func main() {
+	fmt.Printf("Server started at %v", time.Now())
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/post/", postHandler)
 	http.ListenAndServe(":8080", nil)
