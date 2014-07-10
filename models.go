@@ -7,5 +7,5 @@ type Post struct {
     Title string
     Body  string
     Date  time.Time
-    slug  string
+    Slug  string
 }

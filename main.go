@@ -32,7 +32,7 @@ func loadPost(slug string) (*Post, error) {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	rows, err := db.Query("SELECT title FROM posts")
+	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -43,14 +43,14 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	var date time.Time
 	var posts []Post
 	for rows.Next() {
-		err := rows.Scan(id, title, body, date, slug)
+		err := rows.Scan(&id, &title, &body, &date, &slug)
 		if err != nil {
 			fmt.Fprintf(w, "error")
 		}
 		var currPost = Post{ID: id, Title: title, Date: date, Slug: slug}
 		posts = append(posts, currPost)
 	}
-	fmt.Printf("%v", posts)
+	fmt.Printf("\n%v", posts)
 	t, _ := template.ParseFiles("views/index.html")
 	t.Execute(w,posts)
 
@@ -62,7 +62,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		p = &Post{Title: "404", Body: fmt.Sprintf("%s",err)}
 	}
-	fmt.Printf("%v",p)
+	fmt.Printf("%v",p.Title)
 	t, _ := template.ParseFiles("views/post.html")
 	t.Execute(w, p)
 }
@@ -71,6 +71,7 @@ var db *sql.DB = setupDB()
 
 func main() {
 	fmt.Printf("Server started at %v", time.Now())
+
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/post/", postHandler)
 	http.ListenAndServe(":8080", nil)
