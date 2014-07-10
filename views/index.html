@@ -4,6 +4,11 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
-  <p> {{.posts}}</p>
+  <div>
+     {{range .}}
+	 <p> {{.}}</p>
+
+	{{end}}
+	</div>
 </body>
 </html>

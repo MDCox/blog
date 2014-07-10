@@ -24,7 +24,7 @@ func loadPost(slug string) (*Post, error) {
 	var title, body string
 	var date time.Time
 	err := db.QueryRow(query).Scan(&id, &title, &body, &date, &slug)
-	if err != nil { 
+	if err != nil {
 		return nil, err
 	}
 
@@ -39,13 +39,18 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	defer rows.Close()
 
 	var title string
+	var posts []string
 	for rows.Next() {
 		err := rows.Scan(&title)
 		if err != nil {
 			fmt.Fprintf(w, "error")
 		}
-		fmt.Fprintf(w, "Title: %s\n", title)
+		posts = append(posts, title)
 	}
+	fmt.Printf("%v", posts)
+	t, _ := template.ParseFiles("views/index.html")
+	t.Execute(w,posts)
+
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
