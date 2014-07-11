@@ -8,6 +8,14 @@ import (
 )
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path[len("/"):] == "" {
+		indexHandler(w, r)
+	} else {
+		postHandler(w, r)
+	}
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
 		fmt.Printf("%s", err)
@@ -31,7 +39,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	slug := r.URL.Path[len("/p/"):]
+	slug := r.URL.Path[len("/"):]
 	p, err := loadPost(slug)
 	if err != nil {
 		p = &Post{Title: "404", Body: fmt.Sprintf("%s", err)}
