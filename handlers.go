@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"time"
 	"net/http"
+	"time"
 )
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
-			fmt.Printf("%s", err)
+		fmt.Printf("%s", err)
 	}
 	defer rows.Close()
 
@@ -27,7 +27,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		posts = append(posts, currPost)
 	}
 	t, _ := template.ParseFiles("views/index.html")
-	t.Execute(w,posts)
+	t.Execute(w, posts)
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
