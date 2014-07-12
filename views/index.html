@@ -4,10 +4,35 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
-  <div>
-     {{range .}}
-	 <p>{{.Title}}</p>
-	{{end}}
-	</div>
+  <div id="left"></div>
+
+  <script>
+	var posts = [
+	  {{range .}}
+	  {
+		"id"    : "{{.ID}}",
+        "title" : "{{.Title}}",
+		"date"  : "{{.Date}}",
+		"slug"  : "{{.Slug}}"
+	  },
+	  {{end}}
+	];
+
+	var nav = d3.select("#left")
+	  			.append("svg")
+				.attr({	"width" : "30%",
+						"height": "100%",
+						"id"    : "nav"});
+    
+    var links = nav.selectAll("#nav")
+		           .data(posts)
+				   .enter()
+		 		   .append("circle")
+				   .attr({ "cy"    : function(d,i) { return 100 - ( (i+1) * 15) + "%"  ; },
+						   "cx"    : function(){ return Math.random() * (80-20) + 20 + "%"},
+						   "r"	   : 30,
+						   "id"    : function(d) { return d.slug; },
+						   "class" : "node-link"});
+  </script>
 </body>
 </html>
