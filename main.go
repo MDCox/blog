@@ -43,6 +43,6 @@ func main() {
 	splashScreen()
 
 	http.HandleFunc("/", rootHandler)
-//	http.HandleFunc("/p/", postHandler)
+	http.HandleFunc("/s/", staticHandler)
 	http.ListenAndServe(":8080", nil)
 }

@@ -47,3 +47,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("views/post.html")
 	t.Execute(w, p)
 }
+
+func staticHandler(w http.ResponseWriter, r *http.Request) {
+	fileName := fmt.Sprintf("static/%s", r.URL.Path[3:])
+	http.ServeFile(w, r, fileName)
+}
