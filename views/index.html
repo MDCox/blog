@@ -6,7 +6,7 @@
 </head>
 <body>
   <div id="left"></div>
-
+  <div id="right"></div>
   <script>
 	var posts = [
 	  {{range .}}
@@ -21,8 +21,7 @@
 
 	var nav = d3.select("#left")
 	  			.append("svg")
-				.attr({	"width" : "30%",
-						"height": "100%",
+				.attr({	"height": "100%",
 						"id"    : "nav"});
     
     var links = nav.selectAll("#nav")
