@@ -31,7 +31,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Printf("%s", err)
 		}
-		var currPost = Post{ID: id, Title: title, Date: date, Slug: slug}
+		var currPost = Post{ID: id, Title: title, Body: body, Date: date, Slug: slug}
 		posts = append(posts, currPost)
 	}
 	t, _ := template.ParseFiles("views/index.html")

@@ -6,13 +6,20 @@
 </head>
 <body>
   <div id="left"></div>
-  <div id="right"></div>
+  <div id="right">
+    <div class="container">
+      <h1></h1>
+      <h3></h3>
+      <div id="post"></div>
+    </div>
+  </div>
   <script>
 	var posts = [
 	  {{range .}}
 	  {
 		"id"    : "{{.ID}}",
         "title" : "{{.Title}}",
+        "body"  : "{{.Body}}",
 		"date"  : "{{.Date}}",
 		"slug"  : "{{.Slug}}"
 	  },
@@ -34,6 +41,16 @@
 						   "id"    : function(d) { return d.slug; },
 						   "class" : "node-link"})
 				   .on("click", function(d) { document.location.href = d.slug; });
+
+    var currPost = posts[posts.length-1];
+
+    d3.select("h1")
+      .html(currPost.title)
+    d3.select("h3")
+      .html(currPost.date)
+    d3.select("#post")
+      .html(currPost.body)
+
   </script>
 </body>
 </html>

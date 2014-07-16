@@ -1,10 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 #left {
 	float: left;
 	width: 30%;
 }
 #right {
 	float: right;
+    height: 100%;
 	width: 70%;
+    background: linear-gradient(to right, rgba(255,255,255,0), rgba(230,230,250,1));
+    background-size: contain;
+}
+.container {
+    padding: 5%;
+    margin: 30px;
+    background: #EEE;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -4px #EEE, 0 10px 2px -5px rgba(0,0,0,0.15), 0 20px 0 -11px #EEE, 0 20px 1px -8px rgba(0,0,0,0.15);
 }
 .node-link {
 	fill: transparent;
