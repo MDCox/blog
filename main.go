@@ -3,9 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"net/http"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 func setupDB() *sql.DB {
@@ -18,9 +19,10 @@ func setupDB() *sql.DB {
 
 func splashScreen() {
 	fmt.Printf(" ==============================\n")
-	fmt.Printf("|         Golb started         |\n")
-	fmt.Printf("|}>-                        -<{|\n")
-	fmt.Printf("%v", time.Now())
+	fmt.Printf("|         Blog started         |\n")
+	fmt.Printf("|}>-                        -<{|\n\n")
+	fmt.Printf("%v\n", time.Now())
+	fmt.Printf("port 8080\n")
 }
 
 func loadPost(slug string) (*Post, error) {
